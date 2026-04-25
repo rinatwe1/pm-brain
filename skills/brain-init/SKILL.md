@@ -51,7 +51,46 @@ If the user provides only a name (e.g. "Spirit") → confirm:
 ```
 Create the directory, then proceed.
 
-## Step 2: Choose mode
+## Step 2: Scan for existing documents
+
+Before asking anything — scan the product directory for existing files:
+- Count markdown files: specs, PRDs, decisions, research, policies
+- Look for: CLAUDE.md, any folder named decisions/, specs/, research/, prd/
+
+**If docs found (1+ relevant files):** → PATH A (docs-first)
+**If no docs found:** → PATH B (questions)
+
+---
+
+## PATH A — Docs First (existing product)
+
+Tell the user:
+```
+מצאתי [N] מסמכים. אקרא אותם ואגזור ממה שיש.
+```
+
+Read the documents (or a representative sample if many). Extract silently:
+- What the product does
+- Primary user
+- Stage
+- Key decisions already made
+- Risks or assumptions mentioned
+
+Then ask **only what's missing** — maximum 3 questions. Use this format:
+```
+קראתי את המסמכים. כמה דברים שלא מצאתי:
+
+1. [שאלה על מה שחסר]
+2. [שאלה על מה שחסר]
+```
+
+**Cross-section reuse rule:** If the user already answered something in a previous question — don't re-ask. Confirm instead: "ציינת קודם [X] — נכון?"
+
+Proceed to Step 3.
+
+---
+
+## PATH B — No docs (new product)
 
 Ask the user:
 ```
@@ -67,69 +106,40 @@ B) Deep — discovery session מלא, 15 דקות.
 אפשר תמיד להשלים ל-Deep אחרי Quick — פשוט הרץ /brain-init שוב.
 ```
 
----
+### Quick mode (A)
 
-## QUICK MODE (Mode A)
-
-Ask these 4 questions, one at a time:
-
+Ask one at a time:
 1. "מה המוצר עושה? (משפט אחד)"
 2. "מי המשתמש העיקרי?"
 3. "באיזה שלב אתם? Discovery / Build / Growth / Scale"
-4. "מה הדבר הכי חשוב שClaudie צריך לדעת על המוצר?"
+4. "מה הדבר הכי חשוב שאני צריך לדעת על המוצר?"
+5. "מי 3 המתחרים הכי רלוונטיים? (אפשר לדלג)"
 
-Then ask one optional question:
-"מי 3 המתחרים הכי רלוונטיים? (אפשר לדלג עם Enter)"
-
-Then proceed to Step 3 (create directories).
-
----
-
-## DEEP MODE (Mode B)
+### Deep mode (B)
 
 Tell the user: "נעשה mini discovery session — התשובות שלך ייזרעו ישירות לזיכרון."
 
-### Cross-section reuse rule
-If the user already mentioned something relevant in a previous answer — don't re-ask. Instead confirm:
-"ציינת קודם [X] — האם זה נכון כאן גם, או לשנות?"
+Apply cross-section reuse rule throughout: if the user already mentioned something — confirm, don't re-ask.
 
-Apply this throughout all 10 questions. If Q1 already covered the problem, Q3 doesn't re-ask. If Q2 named a segment, Q7 reuses it.
-
-Ask these questions, one at a time. For each question, give a short example to help junior PMs.
+Ask one at a time, with a short example per question:
 
 **Tier 1 — Required:**
-
-1. "מה המוצר עושה? (משפט אחד)"
-   Example: "Spirit מחברת בין אנשים לסדנאות ואירועי well-being"
-
-2. "מי המשתמש העיקרי — תאר/י בפירוט"
-   Example: "אישה בת 35-45, תל אביב, עובדת, מחפשת פעילות משמעותית בשעות הפנאי"
-
-3. "מה הבעיה שאתם פותרים? (JTBD — מה הם רוצים להשיג)"
-   Example: "רוצים חיבור חברתי + התפתחות אישית, אבל קשה למצוא משהו רלוונטי ואמין"
-
+1. "מה המוצר עושה?" — Example: "Spirit מחברת בין אנשים לסדנאות well-being"
+2. "מי המשתמש העיקרי בפירוט?" — Example: "אישה 35-45, תל אביב, מחפשת פעילות משמעותית"
+3. "מה הבעיה שאתם פותרים? (JTBD)" — Example: "קשה למצוא חוויה אמינה ורלוונטית"
 4. "באיזה שלב אתם? Discovery / Build / Growth / Scale"
-
-5. "מה המדד הראשי להצלחה?"
-   Example: "bookings per month / retention after 3 sessions / MRR"
+5. "מה המדד הראשי להצלחה?" — Example: "bookings per month / retention / MRR"
 
 **Tier 2 — Competitors & Assumptions:**
+6. "מי 3 המתחרים הכי רלוונטיים? (שם + URL)"
+7. "מה ההנחה הכי גדולה שהמוצר מבוסס עליה?"
+8. "מה הסיכון הכי גדול?"
 
-6. "מי 3 המתחרים הכי רלוונטיים? (שם + URL אם יש)"
-   Example: "Eventbrite, Momence, פייסבוק אירועים"
-
-7. "מה ההנחה הכי גדולה שמוצר זה מבוסס עליה?"
-   Example: "אנחנו מאמינים שאנשים ישלמו פרמיום עבור well-being אם המדריך מאומת"
-
-8. "מה הסיכון הכי גדול שיכול להטביע את המוצר?"
-   Example: "שהמדריכים לא יצליחו לגייס משתמשים בכוחות עצמם"
-
-**Tier 3 — Optional (ask "רוצה לענות על עוד שאלות לעומק?"):**
-
+**Tier 3 — Optional** (ask "רוצה לענות על עוד שאלות?"):
 9. "מה כבר ניסיתם ולא עבד?"
-10. "מה אתה/את הכי לא בטוח/ה לגביו עכשיו?"
+10. "מה את/ה הכי לא בטוח/ה לגביו?"
 
-**Escape hatch:** At any point the user can say "המשך בלעדי" — Claude fills in the remaining questions based on context and proceeds to Step 3.
+**Note (internal — do not display):** If the user says "המשך בלעדי" at any point — fill in remaining questions from context and proceed to Step 3.
 
 ---
 
@@ -139,6 +149,7 @@ Create this exact structure in the current directory:
 
 ```
 .pm-brain/
+├── SNAPSHOT.md        ← קרא זה ראשון בכל session
 ├── meta.json
 ├── knowledge/
 │   ├── INDEX.md
@@ -184,7 +195,39 @@ Note: `market/` and `hypotheses/` are critical — create them even if they seem
 
 ---
 
-## Step 4: Write meta.json
+## Step 4: Write SNAPSHOT.md
+
+Create `.pm-brain/SNAPSHOT.md` — the first file Claude reads every session:
+
+```markdown
+# [Product] — Snapshot
+Last updated: YYYY-MM-DD
+
+## עכשיו
+[stage] — [מה קורה כרגע בפועל]
+
+## הסיכון הכי גדול
+[מה יכול להטביע את המוצר עכשיו]
+
+## ההנחה הכי גדולה
+[מה עדיין לא מוכח שהמוצר מבוסס עליו]
+
+## הצעד הבא
+[הדבר הכי חשוב לעשות עכשיו]
+
+## hypotheses פעילות
+[מספר] פעילות — הקריטית ביותר: [HYP-XXX]
+
+## החלטות אחרונות
+- [תאריך]: [החלטה קצרה]
+- [תאריך]: [החלטה קצרה]
+```
+
+Fill from the answers given during init. Leave sections empty if unknown — Claude will populate them over time.
+
+---
+
+## Step 5: Write meta.json
 
 ```json
 {
@@ -417,10 +460,20 @@ If CLAUDE.md exists in current directory, append:
 **Memory location:** `.pm-brain/`
 
 ### How to use this memory
-Before starting any task, read the relevant domain in `.pm-brain/knowledge/`.
-After any significant decision, run `/decision-log`.
-When working on an assumption, run `/hypothesis`.
+At the start of every session: read `.pm-brain/SNAPSHOT.md` first.
+Before any task: check the relevant domain in `.pm-brain/knowledge/`.
+After any significant decision: run `/decision-log`.
+When working on an assumption: run `/hypothesis`.
 Monthly: run `/brain-review`.
+
+### Auto-update SNAPSHOT
+At the end of every session, update `.pm-brain/SNAPSHOT.md`:
+- Update "עכשיו" if stage or situation changed
+- Update "הצעד הבא" based on what was decided or completed
+- Update "החלטות אחרונות" if a decision was logged
+- Update "hypotheses פעילות" count if changed
+- Update "Last updated" date
+Do this silently — no need to announce it.
 
 ### Knowledge domains
 discovery | strategy | growth | metrics | ux | roadmap | market
