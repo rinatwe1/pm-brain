@@ -15,20 +15,56 @@ Run this once from your product directory. After init, Claude reads .pm-brain/ a
 
 Run this from your product directory. Not from PM-Brain.
 
-## Step 1: Check if already initialized
-If `.pm-brain/` exists: show current state and ask "לאתחל מחדש או לעדכן?"
-If not: proceed.
+## Step 1: Find or create product directory
+
+Check if `.pm-brain/` already exists in the current directory.
+
+**If yes:** Tell the user:
+```
+PM Brain כבר מופעל למוצר זה.
+הזיכרון נמצא ב-.pm-brain/
+
+מה תרצה/י לעשות?
+A) המשך — פשוט המשך לעבוד
+B) עדכן — הוסף מידע לזיכרון הקיים
+```
+If A → stop, no further action.
+If B → skip to Step 2 (choose mode), use existing .pm-brain/.
+
+**If no:** Ask:
+```
+שלום! בוא נגדיר את הזיכרון של Claude למוצר שלך.
+
+איפה נמצאת תיקיית המוצר?
+(לדוגמה: /Users/rinatweiss/Documents/Spirit)
+
+אם אין לך תיקייה עדיין — פשוט תגיד/י את שם המוצר ואצור אותה.
+```
+
+If the user provides a full path → use it.
+If the user provides only a name (e.g. "Spirit") → confirm:
+```
+אצור את התיקייה כאן:
+/Users/[username]/Work/[product-name]/
+
+מאשר/ת? (כן / מיקום אחר)
+```
+Create the directory, then proceed.
 
 ## Step 2: Choose mode
 
 Ask the user:
 ```
-שני מצבים:
+איך תרצה/י להתחיל?
 
-A) Quick (2 דקות) — 4 שאלות בסיסיות. מתאים למוצר קיים שיש לו docs.
-B) Deep (15 דקות) — discovery session מלא. מתאים למוצר חדש.
+A) Quick — 4 שאלות, 2 דקות.
+   Claude ידע את הבסיס ויתחיל לצבור זיכרון מיד.
 
-מה עדיף לך? (A/B)
+B) Deep — discovery session מלא, 15 דקות.
+   Claude ישאל לעומק על המוצר, המשתמשים, ההנחות והמתחרים.
+   הזיכרון יתחיל מלא יותר.
+
+אפשר תמיד להשלים ל-Deep אחרי Quick — פשוט הרץ /brain-init שוב.
 ```
 
 ---
