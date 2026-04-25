@@ -6,7 +6,6 @@ set -e
 
 PM_BRAIN_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$HOME/.claude/skills"
-LINK_NAME="pm-brain"
 
 echo "Installing PM Brain..."
 echo ""
@@ -14,19 +13,21 @@ echo ""
 # Create skills directory if needed
 mkdir -p "$SKILLS_DIR"
 
-# Remove old installation (symlink or directory)
-if [ -L "$SKILLS_DIR/$LINK_NAME" ]; then
-  rm "$SKILLS_DIR/$LINK_NAME"
-  echo "Removed old symlink"
-elif [ -d "$SKILLS_DIR/$LINK_NAME" ]; then
-  rm -rf "$SKILLS_DIR/$LINK_NAME"
-  echo "Removed old directory installation"
-fi
+# Create one symlink per skill (Claude Code looks for ~/.claude/skills/<skill-name>/)
+INSTALLED=0
+for skill_dir in "$PM_BRAIN_DIR/skills"/*/; do
+  skill_name=$(basename "$skill_dir")
 
-# Create symlink: ~/.claude/skills/pm-brain → PM-Brain/skills/
-ln -s "$PM_BRAIN_DIR/skills" "$SKILLS_DIR/$LINK_NAME"
+  # Remove old installation if exists (symlink or directory)
+  if [ -L "$SKILLS_DIR/$skill_name" ] || [ -d "$SKILLS_DIR/$skill_name" ]; then
+    rm -rf "$SKILLS_DIR/$skill_name"
+  fi
 
-echo "✓ Skills linked to ~/.claude/skills/pm-brain/"
+  ln -s "$skill_dir" "$SKILLS_DIR/$skill_name"
+  INSTALLED=$((INSTALLED + 1))
+done
+
+echo "✓ $INSTALLED skills linked to ~/.claude/skills/"
 echo ""
 echo "Skills available:"
 for skill in "$PM_BRAIN_DIR/skills"/*/; do
