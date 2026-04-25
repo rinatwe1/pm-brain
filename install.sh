@@ -14,10 +14,13 @@ echo ""
 # Create skills directory if needed
 mkdir -p "$SKILLS_DIR"
 
-# Remove old symlink if exists
+# Remove old installation (symlink or directory)
 if [ -L "$SKILLS_DIR/$LINK_NAME" ]; then
   rm "$SKILLS_DIR/$LINK_NAME"
-  echo "Removed old installation"
+  echo "Removed old symlink"
+elif [ -d "$SKILLS_DIR/$LINK_NAME" ]; then
+  rm -rf "$SKILLS_DIR/$LINK_NAME"
+  echo "Removed old directory installation"
 fi
 
 # Create symlink: ~/.claude/skills/pm-brain → PM-Brain/skills/
