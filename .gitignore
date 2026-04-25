@@ -1,0 +1,21 @@
+# Internal docs — not for public repo
+PRD.md
+unfry-sessions/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Knowledge base backup (in case we keep originals)
+knowledge-base-original/
+
+# Product memory (per-product, not part of the package)
+.pm-brain/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node
+node_modules/
