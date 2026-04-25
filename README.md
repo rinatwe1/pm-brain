@@ -75,7 +75,7 @@ Enable agents per product in `.pm-brain/agents/agents.yaml`
 your-product/
 └── .pm-brain/
     ├── meta.json          ← product info
-    ├── knowledge/         ← accumulated knowledge (6 domains)
+    ├── knowledge/         ← accumulated knowledge (7 domains)
     ├── decisions/         ← decision journal
     ├── quality/           ← quality criteria
     └── agents/

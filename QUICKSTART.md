@@ -21,15 +21,20 @@ Open: Work/PM-Brain/     ✗ (only for editing skills)
 
 **Step 2:** Type `/brain-init`
 
-Claude will ask 3 questions and set up memory for this product.
+Claude will ask 4–5 questions and set up memory for this product.
+Choose Quick mode (existing product with docs) or Deep mode (new product, full discovery).
 
-**Step 3:** If you have existing docs (PRDs, specs, policies)
+**Step 3:** Type `/brain-import`
 
-Type `/brain-import`
+Claude scans your directory and imports existing docs (PRDs, specs, decisions) into memory.
+Skip this only if you have zero existing docs.
 
-Claude scans your directory and imports existing knowledge into memory.
+**Step 4:** Start working normally.
 
-**That's it.** Claude now remembers your product.
+Claude now reads `.pm-brain/` automatically every session.
+When you make a decision → `/decision-log`
+When you're working on an assumption → `/hypothesis`
+Once a month → `/brain-review`
 
 ---
 

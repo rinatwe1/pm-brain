@@ -10,8 +10,10 @@ Run this once from your product directory. After init, Claude reads .pm-brain/ a
 
 ## Usage
 ```
-/brain-init [product-name]
+/brain-init
 ```
+
+Run this from your product directory. Not from PM-Brain.
 
 ## Step 1: Check if already initialized
 If `.pm-brain/` exists: show current state and ask "לאתחל מחדש או לעדכן?"
@@ -39,6 +41,9 @@ Ask these 4 questions, one at a time:
 2. "מי המשתמש העיקרי?"
 3. "באיזה שלב אתם? Discovery / Build / Growth / Scale"
 4. "מה הדבר הכי חשוב שClaudie צריך לדעת על המוצר?"
+
+Then ask one optional question:
+"מי 3 המתחרים הכי רלוונטיים? (אפשר לדלג עם Enter)"
 
 Then proceed to Step 3 (create directories).
 
@@ -164,9 +169,58 @@ Note: `market/` and `hypotheses/` are critical — create them even if they seem
 
 ---
 
-## Step 5: Pre-populate knowledge from Deep mode answers (Deep mode only)
+## Step 5: Pre-populate knowledge from answers
 
-If Mode B was used, seed the knowledge files with actual answers:
+### Quick Mode (Mode A) — always do this:
+
+**From Q1 (product description) → discovery/knowledge.md:**
+```markdown
+## Product Description — initialized YYYY-MM-DD
+[answer verbatim]
+Source: brain-init
+```
+
+**From Q2 (primary user) → discovery/knowledge.md:**
+```markdown
+## Primary User — initialized YYYY-MM-DD
+[answer verbatim]
+Source: brain-init
+```
+
+**From Q4 (most important thing) → strategy/knowledge.md:**
+```markdown
+## Key Product Context — initialized YYYY-MM-DD
+[answer verbatim]
+Source: brain-init
+```
+
+**From competitors question (if answered) → pre-fill agents.yaml:**
+```yaml
+competitor-watcher:
+  enabled: false  # set to true when ready to monitor automatically
+  schedule: weekly-sunday
+  config:
+    competitors:
+      - name: "[Competitor 1]"
+        url: ""
+      - name: "[Competitor 2]"
+        url: ""
+```
+
+**If competitors question was skipped → still create agents.yaml template:**
+```yaml
+competitor-watcher:
+  enabled: false
+  schedule: weekly-sunday
+  config:
+    competitors: []  # add competitors here: - name: "X" url: "https://x.com"
+```
+
+---
+
+### Deep Mode (Mode B) — also do this:
+
+If Mode B was used, additionally seed:
 
 **From Q2 (primary user) → discovery/knowledge.md:**
 ```markdown
@@ -367,8 +421,14 @@ Human message for Quick mode:
 ```
 PM Brain initialized for [product] (Quick mode).
 
-.pm-brain/ נוצר עם 7 domains.
-הצעד הבא: /brain-import — ייבוא docs קיימים.
+.pm-brain/ נוצר עם 7 knowledge domains.
+הידע שסיפקת נשמר ב-discovery/ ו-strategy/.
+
+הצעד הבא:
+→ יש לך docs קיימים (PRDs, specs, פגישות)? הרץ /brain-import — Claude יקרא אותם וייבא לזיכרון.
+→ מוצר חדש לגמרי? התחל לעבוד. הרץ /decision-log כשתחליט משהו.
+
+אחרי ה-import, Claude קורא את .pm-brain/ אוטומטית בכל session.
 ```
 
 Human message for Deep mode:
