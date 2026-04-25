@@ -21,7 +21,7 @@ After 30 days, Claude knows your product history. After 90 days, you stop re-exp
 ## Install
 
 ```bash
-git clone [repo-url] ~/PM-Brain
+git clone https://github.com/rinatwe1/pm-brain.git ~/PM-Brain
 cd ~/PM-Brain
 ./install.sh
 ```
