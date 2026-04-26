@@ -93,6 +93,8 @@ Human message:
 Domain: {domain}
 קובץ: .pm-brain/decisions/{filename}
 Success signal: {signal} — תבדוק/י בעוד 90 יום
+
+שמרתי. בפעם הבאה שנדון בנושא דומה, אזכיר לך את זה.
 ```
 
 ## Notes

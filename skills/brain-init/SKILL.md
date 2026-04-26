@@ -460,11 +460,14 @@ If CLAUDE.md exists in current directory, append:
 **Memory location:** `.pm-brain/`
 
 ### How to use this memory
-At the start of every session: read `.pm-brain/SNAPSHOT.md` first.
+At the start of every conversation: read `.pm-brain/SNAPSHOT.md` first — before doing anything else.
+Before suggesting any new feature or approach: check `.pm-brain/decisions/` for conflicts with prior decisions.
 Before any task: check the relevant domain in `.pm-brain/knowledge/`.
 After any significant decision: run `/decision-log`.
 When working on an assumption: run `/hypothesis`.
 Monthly: run `/brain-review`.
+
+**Critical:** If `.pm-brain/decisions/` contains a decision related to what the user is discussing, surface it immediately: "ב-[תאריך] החלטנו [X] — האם זה עדיין בתוקף?"
 
 ### Auto-update SNAPSHOT
 At the end of every session, update `.pm-brain/SNAPSHOT.md`:
