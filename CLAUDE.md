@@ -61,6 +61,32 @@ All agents write this JSON to `.pm-brain/agents/logs/`:
 }
 ```
 
+## Tasks
+משימות פיתוח של PM Brain יושבות ב-`PM-Brain/_tasks/` (שינוי מ-1 מאי 2026).
+
+## PM Brain Memory
+
+**Product:** PM Brain  
+**Initialized:** 2026-05-01  
+**Memory location:** `.pm-brain/`
+
+### How to use this memory
+At the start of every conversation: read `.pm-brain/SNAPSHOT.md` first — before doing anything else.
+Before suggesting any new feature or approach: check `.pm-brain/decisions/` for conflicts with prior decisions.
+After any significant decision in this session: run `/decision-log`.
+When working on an assumption: run `/hypothesis`.
+Monthly: run `/brain-review`.
+
+**Critical:** If `.pm-brain/decisions/` contains a decision related to what is being discussed, surface it immediately: "ב-[תאריך] החלטנו [X] — האם זה עדיין בתוקף?"
+
+### Auto-update SNAPSHOT
+At the end of every session, update `.pm-brain/SNAPSHOT.md` silently:
+- Update "עכשיו" if stage or situation changed
+- Update "הצעד הבא" based on what was decided or completed
+- Update "החלטות אחרונות" if a decision was logged
+
+---
+
 ## Design principles
 1. Agents are stateless — they read config, do work, write output
 2. State lives in .pm-brain/ only
