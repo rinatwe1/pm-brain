@@ -1,0 +1,14 @@
+{
+  "product": "PM Brain",
+  "description": "PM memory system — installs once, creates .pm-brain/ in each product directory. Like git. Gives Claude longitudinal product-specific memory that accumulates over time.",
+  "primary_user": "Technical PM who uses Claude Code daily and is tired of re-explaining context every session",
+  "stage": "Build",
+  "init_mode": "path-a-docs",
+  "initialized": "2026-05-01",
+  "last_review": null,
+  "last_active": "2026-05-01",
+  "decision_count": 8,
+  "hypothesis_count": 2,
+  "rule_count": 0,
+  "review_count": 0
+}

@@ -1,0 +1,11 @@
+competitor-watcher:
+  enabled: false
+  schedule: weekly-sunday
+  config:
+    competitors:
+      - name: "AI-SHIPR (verve-pm)"
+        url: "https://github.com/Yaniv-Git/AI-SHIPR"
+      - name: "Squad AI"
+        url: "https://squadai.io"
+      - name: "Pawel Huryn / Product Compass"
+        url: "https://www.productcompass.pm"
