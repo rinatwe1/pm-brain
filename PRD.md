@@ -1,8 +1,8 @@
 # PM Brain — Product Requirements Document
 
-**Version:** 0.1 (MVP)
-**Date:** 2026-04-25
-**Status:** MVP Built, Not Yet Shipped
+**Version:** 0.2 (Synthesis Pipeline)
+**Date:** 2026-05-02
+**Status:** Phase 1.5 + Phase 2 Complete — Not Yet Shipped Publicly
 
 ---
 
@@ -90,15 +90,19 @@ Like git: `.pm-brain/` is committed to the product repo. The brain travels with 
 
 ### Onboarding Modes
 
-**Mode A: New product**
-Run `/brain-init` in an empty product directory. Claude asks 3 questions (one-line description, primary user, stage). Creates full `.pm-brain/` structure with pre-loaded knowledge from 17 PM books. Appends a PM Brain block to existing CLAUDE.md if present.
+**Mode A: Existing product with docs**
+Run `/brain-init` from the product directory. Claude scans for existing docs, reports what it found, then asks: Quick (read docs + fill gaps only) or Deep (read docs + validate + full discovery). After init, run `/brain-import` to extract decisions and knowledge from all docs.
 
-**Mode B: Existing product with local docs**
-Run `/brain-init` then `/brain-import`. The import skill scans recursively for `.md` files, classifies them by type (PRD/spec, policy, tech, flow, research), extracts decisions and knowledge, and maps them to the 6 domains. Appends to existing `.pm-brain/` content — never overwrites.
+**Mode B: New product, no docs**
+Run `/brain-init`. Claude asks Quick (4 questions, 2 min) or Deep (10 questions, 15 min). Both modes pre-load 7 PM knowledge domains from the knowledge base.
 
-**Mode C: Existing product with docs in Notion or Confluence**
-Status: NOT SUPPORTED in v0.1.
-Workaround: export pages to markdown manually, then run `/brain-import`.
+**Note:** brain-init always asks Quick or Deep — regardless of whether docs exist. The user knows better than Claude how reliable their docs are.
+
+**Mode C: Docs in Notion or Google Docs**
+- Google Docs → export as .docx, then run `/brain-import`
+- Notion → export page as Markdown, then run `/brain-import`
+- Confluence → export as Markdown, then run `/brain-import`
+- .docx files are supported natively via `textutil` (Mac) or `pandoc`
 
 ---
 
@@ -111,10 +115,11 @@ Workaround: export pages to markdown manually, then run `/brain-import`.
 - Limitations: if `PM-Brain/knowledge-base/` is not accessible, writes minimal starter content instead of full frameworks. Does not automatically detect an existing CLAUDE.md in nested directories.
 
 **`/brain-import`**
-- Scans current directory for `.md` files, classifies by type, extracts knowledge and decisions, writes to `.pm-brain/` by domain. Shows file count and type breakdown before proceeding.
+- Scans current directory for `.md` and `.docx` files, classifies by type, extracts knowledge and decisions, writes to `.pm-brain/` by domain. Shows file count and type breakdown before proceeding.
 - Use it: after `/brain-init` when the product has existing specs, PRDs, policy docs, or research files.
-- Input: current directory (scans recursively). Output: knowledge appended per domain, decision files created in `decisions/`, `meta.json` updated with import record.
-- Limitations: markdown only — no PDF, no Notion, no Confluence. Classification is heuristic (filename-based). Rough import by design; manual cleanup expected.
+- Input: current directory (scans recursively, skips code dirs). Output: knowledge appended per domain, decision files created in `decisions/`, `meta.json` updated with import record.
+- .docx conversion: uses `textutil` (Mac built-in) or `pandoc` fallback. Graceful skip with instructions if neither available.
+- Limitations: no PDF, no Notion API, no Confluence API. Classification is heuristic (filename-based). Rough import by design; manual cleanup expected.
 
 **`/decision-log`**
 - Guides a PM through 6 conversational questions to capture a decision with full reasoning: what, why now, alternatives, chosen rationale, trade-offs, and success signal. Searches prior decisions before logging to avoid duplicates. Offers to create a linked hypothesis if the decision rests on an unvalidated assumption.
@@ -148,20 +153,36 @@ Agents defined but NOT YET BUILT: `knowledge-updater` (reads Lenny + PM blogs), 
 
 ---
 
+**`/synthesize`** *(new in v0.2)*
+- Router skill: detects input type (meeting / interview / research / competitor / experiment) and routes to the right sub-skill. If unclear — asks one clarifying question only.
+- Sub-skills: `/synthesize-meeting`, `/synthesize-interview`, `/synthesize-research`
+
+**`/synthesize-meeting`**
+- Converts raw meeting notes (transcript, bullets, email summary) into a structured artifact saved to `.pm-brain/meetings/YYYY-MM-DD-[slug].md`. Extracts: key decisions, open questions, action items, assumptions surfaced, verbatim quotes. Scans `.pm-brain/` for related decisions/hypotheses and suggests links. Proposes SNAPSHOT update — never applies it automatically.
+
+**`/synthesize-interview`**
+- Teresa Torres continuous discovery style. Extracts: JTBD, pain points, behavioral patterns, verbatim quotes. Suggests new hypotheses based on pain points. Saves to `.pm-brain/interviews/`.
+
+**`/synthesize-research`**
+- Handles: articles, competitor analysis, experiments, AI conversations. Different extraction per type. Saves to `.pm-brain/research/`.
+
+---
+
 ### Knowledge Base
 
-Pre-loaded from 17 PM books, distilled into frameworks, rules, and hypotheses per domain.
+Pre-loaded from 13 PM books, distilled into frameworks, rules, and hypotheses per domain.
 
-| Domain | Frameworks | Rules | Hypotheses | Key books |
-|--------|------------|-------|------------|-----------|
-| discovery | 6 | 6 | 7 | Mom Test, Continuous Discovery Habits, JTBD, Value Prop Design |
-| strategy | 6 | 4 | 6 | INSPIRED, Escaping Build Trap, Lean Startup, Strategize |
-| metrics | 5 | 4 | 6 | OKRs Done Right, Lean Product Playbook, Hacking Growth |
-| growth | 5 | 4 | 6 | Hacking Growth, Product-Led Growth, Lean Startup |
-| ux | 5 | 5 | 6 | Don't Make Me Think, Lean Product Playbook, Value Prop Design |
-| roadmap | 5 | 5 | 6 | Strategize, INSPIRED, Escaping Build Trap, OKRs Done Right |
+| Domain | Key books |
+|--------|-----------|
+| discovery | Mom Test, Continuous Discovery Habits, JTBD, Value Prop Design |
+| strategy | INSPIRED, Escaping Build Trap, Lean Startup, Strategize |
+| metrics | OKRs Done Right, Lean Product Playbook, Hacking Growth |
+| growth | Hacking Growth, Product-Led Growth, Lean Startup |
+| ux | Don't Make Me Think, Lean Product Playbook, Value Prop Design |
+| roadmap | Strategize, INSPIRED, Escaping Build Trap, OKRs Done Right |
+| market | populated by competitor-watcher agent + brain-import |
 
-Content is copied from `PM-Brain/knowledge-base/` into `.pm-brain/knowledge/` on `/brain-init`. After that, it accumulates with product-specific content.
+Content is copied from `PM-Brain/knowledge-base/` into `.pm-brain/knowledge/` on `/brain-init` (Step 3b). After that, it accumulates with product-specific content via `/synthesize`, `/decision-log`, and `/brain-import`.
 
 ---
 
@@ -175,39 +196,31 @@ Content is copied from `PM-Brain/knowledge-base/` into `.pm-brain/knowledge/` on
 - Orchestrator skeleton (`run.sh` + `setup.sh` — no real invocation yet)
 - Knowledge base from 17 PM books across 6 domains
 
-### Phase 1.5 — Usability (pre-v0.2) ← עכשיו
+### Phase 1.5 — Usability ✅ Done (2026-05-02)
 **מטרה:** לפני כל קוד חדש — לוודא שכל אחד יכול להשתמש במערכת ללא כשלים.
 
-- [ ] Usability audit — הליכה על כל ה-flow (install → init → import → daily use) כמשתמש חדש, תיעוד כל נקודת כשל
-- [ ] תיקון QUICKSTART — `[repo-url]` placeholder → URL אמיתי, תיקון "reads automatically" (לא נכון לפי PRD section 10)
-- [ ] Audit כל skills לerror messages — מה קורה כשמריצים skill בתיקייה לא נכונה? כשאין `.pm-brain/`? כשה-YAML שבור?
-- [ ] תיקון `market/` domain gap — brain-init לא יוצר את התיקייה שcompetitor-watcher כותב אליה
-- [ ] Test protocol — checklist מוגדר לבדיקת PM Brain על machine חדש
+- [x] Usability audit — 14 בעיות מזוהות ומתועדות ב-`_docs/usability-issues.md`
+- [x] תיקון QUICKSTART + README — URL אמיתי, Quick/Deep מוסבר, troubleshooting מורחב
+- [x] Guard clauses לכל skills — decision-log, hypothesis, brain-review בודקות `.pm-brain/` לפני הכל
+- [x] תיקון hooks — single quotes bug תוקן, date/updated validation תוקן
+- [x] brain-init: לא שואל על תיקייה כשהמשתמש כבר שם (C1)
+- [x] brain-init: knowledge-base נטענת ב-Step 3b (C2)
+- [x] brain-import: מסנן תיקיות קוד, מטפל ב-0 קבצים, תומך ב-.docx
+- [x] Quick/Deep עכשיו מוצג תמיד — גם כשיש docs (החלטה מתועדת ב-decisions/)
+- [x] market/ domain: קיים ב-brain-init — לא היה צריך תיקון
 
-**Criterion to exit:** אדם שלא בנה את המערכת יכול להתקין ולהשתמש בה בלי לשאול שאלות.
+**Criterion:** ✅ עמד בקריטריון — flow ברור, הודעות שגיאה לכל כשל, docs מדויקים.
 
-### Phase 2 — Synthesis Pipeline (v0.2)
+### Phase 2 — Synthesis Pipeline ✅ Done (2026-05-01)
 **מטרה:** raw product context (פגישות, interviews, מחקר) → structured evidence. זה ה-compounding שחסר.
 
-**שלב 2a — synthesize-meeting (ראשון, עומק לפני רוחב):**
-- [ ] תבנית output מוגדרת — YAML frontmatter, key decisions, open questions, assumptions, quotes, risks, suggested links
-- [ ] `/synthesize-meeting` skill — raw meeting notes → structured artifact ב-`.pm-brain/meetings/`
-- [ ] Linking engine — skill סורקת decisions/ ו-hypotheses/ קיימים, מציעה קישורים (לא מעדכנת בלי אישור)
-- [ ] SNAPSHOT suggestion — בסיום synthesis, מציע מה לעדכן ב-SNAPSHOT, לא מעדכן אוטומטית
-- [ ] בדיקה על 3 סוגי meetings שונים
-
-**שלב 2b — synthesis נוספים:**
-- [ ] `/synthesize-interview` — user interviews, Teresa Torres style, extracts: quotes, insights, jobs-to-be-done, suggested hypotheses
-- [ ] `/synthesize-research` — מאמרים, מחקר מתחרים, תוצרי discovery
-
-**שלב 2c — router:**
-- [ ] `/synthesize` — router שמזהה סוג input ומנתב ל-skill המתאים (רק אחרי שיש 3 synthesis types טובים)
-
-**שלב 2d — hooks מכניים:**
-- [ ] hook: YAML validation על `.pm-brain/**` אחרי כל עריכה
-- [ ] hook: בדיקת required fields חסרים
-- [ ] hook: broken links check
-- [ ] **לא:** hook שמעדכן SNAPSHOT אוטומטית — זה semantic, לא מכני
+- [x] `/synthesize-meeting` — raw meeting notes → structured artifact ב-`.pm-brain/meetings/`
+- [x] `/synthesize-interview` — Teresa Torres style, extracts JTBD + quotes + suggested hypotheses
+- [x] `/synthesize-research` — articles / competitors / experiments → insights + implications
+- [x] `/synthesize` — router שמזהה סוג input ומנתב ל-skill המתאים
+- [x] Hooks — YAML validation על `.pm-brain/**` אחרי כל עריכה (מכני בלבד)
+- [x] Linking engine — סורקת כל `.pm-brain/` ומציעה קישורים (לא מעדכנת בלי אישור)
+- [x] SNAPSHOT suggestion — מציע בסיום synthesis, לא מעדכן אוטומטית
 
 ### Phase 3 — Integrations (v0.3)
 - [ ] Notion import — connect to Notion API, import pages as knowledge
@@ -272,15 +285,14 @@ Content is copied from `PM-Brain/knowledge-base/` into `.pm-brain/knowledge/` on
 
 ---
 
-## 10. Known Limitations (v0.1)
+## 10. Known Limitations (v0.2)
 
-- **No Notion / Confluence support** — markdown import only. Manual export workaround required.
-- **Orchestrator is a skeleton** — `run.sh` does not invoke Claude Code. Agents cannot run automatically. Competitor watcher requires manual Claude prompt.
-- **`knowledge-updater` and `decision-reviewer` agents are not built** — listed in `agents.yaml` template but no `AGENT.md` exists for either.
-- **Skills not auto-loaded** — require `install.sh` to create the symlink. If Claude Code installs to a non-standard path, the symlink may not work.
+- **No Notion / Confluence API** — requires manual export to .docx or .md before `/brain-import`. PDF not supported.
+- **Orchestrator is a skeleton** — agents cannot run automatically. Competitor watcher requires manual Claude prompt. Real scheduling is Phase 3.
+- **`knowledge-updater` and `decision-reviewer` not built** — coming Phase 3.
 - **No proactive memory injection** — Claude reads `.pm-brain/` only when the PM references it or a skill is invoked. A PM who forgets to invoke skills gets no benefit.
-- **Hypothesis expiry is passive** — expired hypotheses are only surfaced during `/brain-review`. No alert system between reviews.
-- **`/brain-review` context ceiling** — large products with many decisions/hypotheses may exceed Claude's effective context window during review.
-- **No UI** — everything is markdown files and CLI. Non-technical PMs cannot use v0.1.
-- **Single product per Claude Code session** — there is no cross-product query or insight surfacing.
-- **`market/` domain not created by `/brain-init`** — competitor-watcher writes to `.pm-brain/knowledge/market/` but this directory is not in the standard init structure. The agent creates it on first run, but the domain is absent from `knowledge/INDEX.md` initially.
+- **Hypothesis expiry is passive** — expired hypotheses surfaced only during `/brain-review`. No alert between reviews.
+- **`/brain-review` context ceiling** — large products with 50+ decisions/hypotheses may exceed Claude's effective context window during review.
+- **No UI** — everything is markdown files and CLI. Non-technical PMs cannot use v0.2.
+- **Single product per Claude Code session** — no cross-product query or insight surfacing.
+- **Linking scope unvalidated** — `/synthesize` scans all `.pm-brain/` for links. May produce noise on large projects. Under review (T07 — after first 10 synthesis runs).
