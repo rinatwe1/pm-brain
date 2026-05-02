@@ -51,6 +51,7 @@ Once a month → `/brain-review`
 | Making a significant decision | `/decision-log` |
 | Building based on an assumption | `/hypothesis` |
 | After a meeting, interview, or research | `/synthesize` |
+| Before a stakeholder meeting | `/brain-report` |
 | Once a month | `/brain-review` |
 
 ---

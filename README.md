@@ -47,6 +47,7 @@ Short version:
 | `/decision-log` | Making a significant decision |
 | `/hypothesis` | Tracking an assumption |
 | `/synthesize` | After a meeting, user interview, or research — converts raw notes to structured memory |
+| `/brain-report` | Generate a shareable HTML report — snapshot, decisions timeline, hypotheses, insights |
 | `/brain-review` | Monthly — prune and promote knowledge |
 
 ### Product OS skills
