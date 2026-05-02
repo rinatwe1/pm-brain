@@ -15,11 +15,12 @@ Run this once from your product directory. After init, Claude reads .pm-brain/ a
 
 Run this from your product directory. Not from PM-Brain.
 
-## Step 1: Find or create product directory
+## Step 1: Check current directory
 
-Check if `.pm-brain/` already exists in the current directory.
+The user should have opened Claude Code in their product directory before running this.
+Use the current directory — do not ask for a path.
 
-**If yes:** Tell the user:
+**If `.pm-brain/` already exists here:**
 ```
 PM Brain כבר מופעל למוצר זה.
 הזיכרון נמצא ב-.pm-brain/
@@ -31,25 +32,20 @@ B) עדכן — הוסף מידע לזיכרון הקיים
 If A → stop, no further action.
 If B → skip to Step 2 (choose mode), use existing .pm-brain/.
 
-**If no:** Ask:
+**If `.pm-brain/` does not exist here:**
+Confirm current directory with the user before creating anything:
 ```
-שלום! בוא נגדיר את הזיכרון של Claude למוצר שלך.
+אני ב: [current directory path]
 
-איפה נמצאת תיקיית המוצר?
-(לדוגמה: /Users/rinatweiss/Documents/Spirit)
-
-אם אין לך תיקייה עדיין — פשוט תגיד/י את שם המוצר ואצור אותה.
+זו תיקיית המוצר שלך?
+A) כן — נתחיל
+B) לא — ציין/י את הנתיב הנכון
 ```
-
-If the user provides a full path → use it.
-If the user provides only a name (e.g. "Spirit") → confirm:
+If B → use the path provided. If only a product name given (e.g. "Spirit") → ask:
 ```
-אצור את התיקייה כאן:
-/Users/[username]/Work/[product-name]/
-
-מאשר/ת? (כן / מיקום אחר)
+לא מצאתי תיקייה בשם זה. איפה לשמור אותה? (ציין/י נתיב מלא)
 ```
-Create the directory, then proceed.
+Create the directory if it doesn't exist, then proceed.
 
 ## Step 2: Scan for existing documents
 
@@ -223,6 +219,33 @@ Create this exact structure in the current directory:
 ```
 
 Note: `market/` and `hypotheses/` are critical — create them even if they seem unused. Agents write to `market/`, the `/hypothesis` skill writes to `hypotheses/`.
+
+---
+
+## Step 3b: Load PM frameworks from knowledge-base
+
+PM Brain ships with pre-loaded PM frameworks from 13 books. Load them now into the new `.pm-brain/` so Claude has them from day one.
+
+**Where to find them:** `~/PM-Brain/knowledge-base/` — the default install path.
+
+For each domain that exists in `~/PM-Brain/knowledge-base/`:
+1. Read `knowledge-base/[domain]/knowledge.md`
+2. Read `knowledge-base/[domain]/rules.md`
+3. APPEND the content to `.pm-brain/knowledge/[domain]/knowledge.md` and `rules.md`
+
+Domains to load: `strategy`, `growth`, `metrics`, `ux`, `roadmap`, `market`
+Note: `discovery/` is not in knowledge-base — leave it empty for the user to populate.
+
+**If `~/PM-Brain/knowledge-base/` is not found:**
+Ask the user: "לא מצאתי את תיקיית ה-knowledge-base. איפה מותקן PM Brain? (ברירת מחדל: ~/PM-Brain)"
+Use the path they provide + `/knowledge-base/`.
+
+**If still not found:**
+```
+לא הצלחתי לטעון את ה-PM frameworks.
+הזיכרון ייווצר ריק — תוכל/י להוסיף מאוחר יותר.
+```
+Continue without failing.
 
 ---
 
