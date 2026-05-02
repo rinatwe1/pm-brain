@@ -1,7 +1,7 @@
 ---
 project: PM-Brain
 type: task-board
-updated: 2026-05-01
+updated: 2026-05-02
 owner: רינת
 phases: [1.5-usability, 2a-synthesize-meeting, 2b-synthesize-types, 2c-hooks, 2d-router]
 ---
@@ -11,7 +11,6 @@ phases: [1.5-usability, 2a-synthesize-meeting, 2b-synthesize-types, 2c-hooks, 2d
 ---
 
 ## Phase 1.5 — Usability
-> כל הטאסקים כאן ממתינים לסיום שינוי ארכיטקטורה שעובדים עליו עכשיו.
 
 ---
 
@@ -20,7 +19,8 @@ phases: [1.5-usability, 2a-synthesize-meeting, 2b-synthesize-types, 2c-hooks, 2d
 ```yaml
 due: 2026-05-04
 priority: critical
-status: waiting
+status: done
+completed: 2026-05-02
 tags: [usability, phase-1.5]
 ```
 
@@ -42,7 +42,8 @@ tags: [usability, phase-1.5]
 ```yaml
 due: 2026-05-05
 priority: critical
-status: waiting
+status: done
+completed: 2026-05-02
 tags: [usability, phase-1.5]
 blockedBy: T01
 ```
@@ -63,7 +64,8 @@ blockedBy: T01
 ```yaml
 due: 2026-05-06
 priority: high
-status: waiting
+status: done
+completed: 2026-05-02
 tags: [usability, phase-1.5]
 blockedBy: T01
 ```
@@ -86,17 +88,12 @@ blockedBy: T01
 ```yaml
 due: 2026-05-06
 priority: high
-status: waiting
+status: done
+completed: 2026-05-02
 tags: [usability, phase-1.5, bug]
 ```
 
-**הבעיה:** competitor-watcher כותב ל-`.pm-brain/knowledge/market/` אבל brain-init לא יוצר את התיקייה — agent נכשל בשקט.
-
-**תיקון ב-`skills/brain-init.md`:**
-1. הוסיפי `knowledge/market/` עם knowledge.md ו-rules.md ריקים
-2. עדכני `knowledge/INDEX.md` להכיל את domain ה-market
-
-**בדיקה:** הרצת brain-init מחדש ובדיקה שהתיקייה נוצרת.
+**נסגר בaudit (T01):** brain-init כבר יוצר market/ כחלק מ-7 ה-domains. הבאג לא קיים.
 
 ---
 

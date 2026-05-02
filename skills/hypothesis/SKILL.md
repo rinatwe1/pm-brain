@@ -11,6 +11,21 @@ description: Log a product hypothesis with confidence score, test method, and ex
 - "הסגמנט הזה מוכן לשלם Z"
 - Any belief you're building on that hasn't been validated yet
 
+## Guard clause
+
+Before doing anything — check that `.pm-brain/` exists in the current directory.
+
+If it doesn't exist:
+```
+לא מצאתי .pm-brain/ בתיקייה הזו.
+
+פתחת Claude Code בתיקיית המוצר שלך? (לא בתיקיית PM-Brain)
+אם כן — הרץ /brain-init קודם כדי להפעיל את הזיכרון.
+```
+Stop. Do not continue.
+
+---
+
 ## Commands
 - `/hypothesis` — log a new hypothesis
 - `/hypothesis validate HYP-001` — mark a hypothesis as validated

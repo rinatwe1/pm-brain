@@ -31,9 +31,9 @@ if ! grep -q "^type:" "$FILE"; then
   ERRORS+=("missing required field: type")
 fi
 
-# Check for required field: date
-if ! grep -q "^date:" "$FILE"; then
-  ERRORS+=("missing required field: date")
+# Check for required date field — accept either "date:" or "updated:" (knowledge files use updated:)
+if ! grep -qE "^(date|updated):" "$FILE"; then
+  ERRORS+=("missing required date field (date: or updated:)")
 fi
 
 # Check frontmatter is closed

@@ -12,6 +12,21 @@ description: Record a product decision with full reasoning. Saves to .pm-brain/d
 - Pricing or packaging decisions
 - Any decision where "why did we do this?" will matter in 3 months
 
+## Guard clause
+
+Before doing anything — check that `.pm-brain/` exists in the current directory.
+
+If it doesn't exist:
+```
+לא מצאתי .pm-brain/ בתיקייה הזו.
+
+פתחת Claude Code בתיקיית המוצר שלך? (לא בתיקיית PM-Brain)
+אם כן — הרץ /brain-init קודם כדי להפעיל את הזיכרון.
+```
+Stop. Do not continue.
+
+---
+
 ## Process
 
 ### Step 1: Search for prior decisions

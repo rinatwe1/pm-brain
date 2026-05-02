@@ -50,33 +50,34 @@ If not — proceed.
 
 If only a name given (e.g. "Spirit") → creates `/Users/[username]/Work/Spirit/` after confirmation.
 
-### Step 3: Scan for existing docs
+### Step 3: Scan + בחירת עומק
 
-Claude scans the directory silently.
+Claude סורק את התיקייה ושואל **תמיד** Quick או Deep — בלי קשר לאם יש docs או לא.
 
-**If docs found (Path A):**
+**אם נמצאו docs:**
 ```
-מצאתי [N] מסמכים. אקרא אותם ואגזור ממה שיש.
-```
-Reads docs, extracts: product description, users, stage, decisions, risks.
-Then asks only what's missing — max 3 questions.
+מצאתי [N] מסמכים.
 
-**If no docs (Path B):**
+איך תרצה/י להמשיך?
+
+A) Quick — אקרא את ה-docs ואשאל רק מה חסר (1-3 שאלות).
+B) Deep — אקרא את ה-docs, אאמת מה שמצאתי, ואחפור לעומק.
+   מומלץ אם הdocs ישנים, חלקיים, או שאת/ה לא בטוח/ה שהם מכסים הכל.
 ```
-איך תרצה/י להתחיל?
+
+**אם לא נמצאו docs:**
+```
+לא מצאתי מסמכים קיימים.
 
 A) Quick — 4 שאלות, 2 דקות.
-   Claude ידע את הבסיס ויתחיל לצבור זיכרון מיד.
-
 B) Deep — discovery session מלא, 15 דקות.
-   Claude ישאל לעומק על המוצר, המשתמשים, ההנחות והמתחרים.
-   הזיכרון יתחיל מלא יותר.
-
-אפשר תמיד להשלים ל-Deep אחרי Quick — פשוט הרץ /brain-init שוב.
 ```
 
-Quick: 4 questions (product, user, stage, most important thing) + optional competitors.
-Deep: 10 questions across 3 tiers (product → metrics → competitors + assumptions → optional).
+**Quick (עם docs):** קורא docs + שואל 1-3 שאלות על מה שחסר.
+**Quick (ללא docs):** 4 שאלות בסיסיות (מוצר, משתמש, שלב, הדבר הכי חשוב).
+**Deep (עם או בלי docs):** 10 שאלות בשלושה רבדים — מוצר → מדדים → מתחרים + הנחות → אופציונלי. שאלות שכבר ידועות מ-docs — מדולגות.
+
+**למה תמיד בוחרים?** כי Claude לא יכול לדעת כמה ה-docs שלך אמינים. אתה/את כן.
 
 ### Step 4: Structure created
 

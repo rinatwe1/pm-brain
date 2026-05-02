@@ -10,6 +10,21 @@ description: Monthly knowledge review. Prunes stale rules, surfaces expired hypo
 - After a major release or pivot
 - When /brain-init suggests it (after 30+ days)
 
+## Guard clause
+
+Before doing anything — check that `.pm-brain/` exists in the current directory.
+
+If it doesn't exist:
+```
+לא מצאתי .pm-brain/ בתיקייה הזו.
+
+פתחת Claude Code בתיקיית המוצר שלך? (לא בתיקיית PM-Brain)
+אם כן — הרץ /brain-init קודם כדי להפעיל את הזיכרון.
+```
+Stop. Do not continue.
+
+---
+
 ## Process
 
 ### Step 1: Check if review is due

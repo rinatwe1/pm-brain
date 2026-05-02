@@ -42,10 +42,11 @@ Short version:
 ### Memory skills
 | Skill | When to use |
 |-------|-------------|
-| `/brain-init [product]` | First time setting up a product |
+| `/brain-init` | First time setting up a product |
 | `/brain-import` | Product has existing docs — import them |
 | `/decision-log` | Making a significant decision |
 | `/hypothesis` | Tracking an assumption |
+| `/synthesize` | After a meeting, user interview, or research — converts raw notes to structured memory |
 | `/brain-review` | Monthly — prune and promote knowledge |
 
 ### Product OS skills
@@ -62,11 +63,11 @@ Short version:
 ## Agents (run automatically)
 Agents run on a schedule and update your product memory without you doing anything.
 
-| Agent | What it does | Default schedule |
-|-------|-------------|-----------------|
-| `competitor-watcher` | Monitors competitors, updates market knowledge | Weekly |
-| `knowledge-updater` | Reads new PM content (Lenny, blogs), extracts insights | Weekly |
-| `decision-reviewer` | Reviews old decisions, flags outdated ones | Monthly |
+| Agent | What it does | Default schedule | Status |
+|-------|-------------|-----------------|--------|
+| `competitor-watcher` | Monitors competitors, updates market knowledge | Weekly | v0.1 ✓ |
+| `knowledge-updater` | Reads new PM content (Lenny, blogs), extracts insights | Weekly | coming v0.3 |
+| `decision-reviewer` | Reviews old decisions, flags outdated ones | Monthly | coming v0.3 |
 
 Enable agents per product in `.pm-brain/agents/agents.yaml`
 

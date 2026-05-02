@@ -57,43 +57,25 @@ Before asking anything — scan the product directory for existing files:
 - Count markdown files: specs, PRDs, decisions, research, policies
 - Look for: CLAUDE.md, any folder named decisions/, specs/, research/, prd/
 
-**If docs found (1+ relevant files):** → PATH A (docs-first)
-**If no docs found:** → PATH B (questions)
+Report what was found, then **always** ask Quick or Deep:
 
----
-
-## PATH A — Docs First (existing product)
-
-Tell the user:
+**If docs found (1+ relevant files):**
 ```
-מצאתי [N] מסמכים. אקרא אותם ואגזור ממה שיש.
-```
+מצאתי [N] מסמכים.
 
-Read the documents (or a representative sample if many). Extract silently:
-- What the product does
-- Primary user
-- Stage
-- Key decisions already made
-- Risks or assumptions mentioned
+איך תרצה/י להמשיך?
 
-Then ask **only what's missing** — maximum 3 questions. Use this format:
-```
-קראתי את המסמכים. כמה דברים שלא מצאתי:
+A) Quick — אקרא את ה-docs ואשאל רק מה חסר (1-3 שאלות).
+B) Deep — אקרא את ה-docs, אאמת מה שמצאתי, ואחפור לעומק.
+   מומלץ אם הdocs ישנים, חלקיים, או שאת/ה לא בטוח/ה שהם מכסים הכל.
 
-1. [שאלה על מה שחסר]
-2. [שאלה על מה שחסר]
+אפשר תמיד לחזור ולהרחיב — פשוט הרץ /brain-init שוב.
 ```
 
-**Cross-section reuse rule:** If the user already answered something in a previous question — don't re-ask. Confirm instead: "ציינת קודם [X] — נכון?"
-
-Proceed to Step 3.
-
----
-
-## PATH B — No docs (new product)
-
-Ask the user:
+**If no docs found:**
 ```
+לא מצאתי מסמכים קיימים.
+
 איך תרצה/י להתחיל?
 
 A) Quick — 4 שאלות, 2 דקות.
@@ -103,10 +85,57 @@ B) Deep — discovery session מלא, 15 דקות.
    Claude ישאל לעומק על המוצר, המשתמשים, ההנחות והמתחרים.
    הזיכרון יתחיל מלא יותר.
 
-אפשר תמיד להשלים ל-Deep אחרי Quick — פשוט הרץ /brain-init שוב.
+אפשל תמיד להשלים ל-Deep אחרי Quick — פשוט הרץ /brain-init שוב.
 ```
 
-### Quick mode (A)
+---
+
+## PATH A — Docs Found
+
+### PATH A + Quick
+
+Read the documents (or a representative sample if many). Extract silently:
+- What the product does
+- Primary user
+- Stage
+- Key decisions already made
+- Risks or assumptions mentioned
+
+Then ask **only what's missing** — maximum 3 questions:
+```
+קראתי את המסמכים. כמה דברים שלא מצאתי:
+
+1. [שאלה על מה שחסר]
+2. [שאלה על מה שחסר]
+```
+
+**Cross-section reuse rule:** If the user already answered something — don't re-ask. Confirm instead: "ציינת קודם [X] — נכון?"
+
+Proceed to Step 3.
+
+---
+
+### PATH A + Deep
+
+Read the documents. Extract what was found. Then tell the user:
+```
+קראתי את המסמכים. מצאתי:
+- מוצר: [X]
+- משתמש: [Y]
+- שלב: [Z]
+
+עכשיו נאמת ונרחיב — שאל/י שאלות אחת בכל פעם.
+```
+
+Apply cross-section reuse rule: if the answer is already in the docs — confirm, don't re-ask.
+
+Ask the Deep mode questions below, **skipping** anything already found in docs.
+
+---
+
+## PATH B — No Docs
+
+### PATH B + Quick
 
 Ask one at a time:
 1. "מה המוצר עושה? (משפט אחד)"
@@ -115,11 +144,13 @@ Ask one at a time:
 4. "מה הדבר הכי חשוב שאני צריך לדעת על המוצר?"
 5. "מי 3 המתחרים הכי רלוונטיים? (אפשר לדלג)"
 
-### Deep mode (B)
+---
+
+### Deep mode (PATH A + Deep / PATH B + Deep)
 
 Tell the user: "נעשה mini discovery session — התשובות שלך ייזרעו ישירות לזיכרון."
 
-Apply cross-section reuse rule throughout: if the user already mentioned something — confirm, don't re-ask.
+Apply cross-section reuse rule throughout: if the user already mentioned something (or it was in docs) — confirm, don't re-ask.
 
 Ask one at a time, with a short example per question:
 
@@ -248,7 +279,7 @@ Fill from the answers given during init. Leave sections empty if unknown — Cla
 
 ---
 
-## Step 5: Pre-populate knowledge from answers
+## Step 5b: Pre-populate knowledge from answers
 
 ### Quick Mode (Mode A) — always do this:
 
