@@ -1,27 +1,28 @@
 # PM Brain — Snapshot
-Last updated: 2026-05-01
+Last updated: 2026-05-02
 
 ## עכשיו
-MVP (v0.1) בנוי ✅ — בונים synthesis pipeline (v0.2). Skills synthesize-meeting, synthesize-interview, synthesize-research, synthesize router נכתבו היום. Hooks מוגדרים.
+v0.2 בנוי ✅ — Phase 1.5 (usability) + Phase 2 (synthesis) הושלמו. PRD עודכן. /brain-report נוסף. המוצר מוכן לבדיקה ראשונה על Spirit.
 
 ## הסיכון הכי גדול
-Anthropic תבנה native project memory ב-Claude Code — אם זה יקרה, הdifferentiator העיקרי מצטמצם. מיטיגציה: PM-specific structure + knowledge base pre-loaded לא ניתן לשכפל בלחיצת כפתור.
+Anthropic תבנה native project memory ב-Claude Code — אם זה יקרה, הdifferentiator העיקרי מצטמצם. מיטיגציה: PM-specific structure + knowledge base + synthesis pipeline לא ניתן לשכפל בלחיצת כפתור.
 
 ## ההנחה הכי גדולה
-synthesis יספק ערך אמיתי — שPMs ירגישו שהם מקבלים more from Claude כי יש context רב יותר ומובנה יותר.
+synthesis יספק ערך אמיתי — שPMs ירגישו שהם מקבלים more from Claude כי יש context רב יותר ומובנה יותר. (HYP-001)
 
 ## הצעד הבא
-1. T01-T04 — usability fixes לאחר שינוי ארכיטקטורה (ממתינים)
-2. בדיקה ראשונה של synthesize-meeting על שיחה אמיתית
-3. Commit לGitHub + גיטאיגנור cleanup לפני public release
+1. /brain-init על Spirit — בדיקה ראשונה כמשתמש חדש (PATH A + Quick/Deep)
+2. /brain-import על Spirit — ייבוא 13 specs + 2 PRDs
+3. /brain-report על Spirit — ראינו האם הדוח שימושי
+4. Phase 3 — אחרי validation על Spirit
 
 ## hypotheses פעילות
-2 פעילות — הקריטית: "synthesis יספק value אמיתי לPMs"
+2 פעילות — הקריטית: HYP-001 "synthesis יספק value אמיתי לPMs" (expires 2026-08-01)
 
 ## החלטות אחרונות
-- 2026-05-01: brain-import הורץ — 3 decisions נוספו, knowledge files עודכנו
-- 2026-05-01: synthesize-meeting שומר ב-.pm-brain/meetings/ אוטומטית ללא confirmation
-- 2026-05-01: linking engine סורק כל .pm-brain/ (זמני — review בT07)
-- 2026-05-01: hooks מכניים בלבד — לעולם לא auto-update SNAPSHOT
-- 2026-04-26: ICP מצומצם ל-AI-native builders (לא PMs כלליים)
-- 2026-04-26: אין UI עד killer moment מאומת ב-CLI
+- 2026-05-02: /brain-report נבנה — HTML סטטי, לפני ישיבות הנהלה (ידני)
+- 2026-05-02: Quick/Deep תמיד — גם כשיש docs (DEC-004)
+- 2026-05-02: Phase 1.5 הושלמה — 14 usability issues טופלו
+- 2026-05-02: brain-import תומך ב-.docx (textutil/pandoc)
+- 2026-04-26: אין UI עד killer moment מאומת ב-CLI (DEC-002) — בתוקף
+- 2026-04-26: ICP מצומצם ל-AI-native builders (DEC-001)
