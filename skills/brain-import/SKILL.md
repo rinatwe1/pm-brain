@@ -20,11 +20,32 @@ Run this after `/brain-init` if your product has existing documentation:
 If `.pm-brain/` doesn't exist, tell user to run `/brain-init` first.
 
 ### Step 2: Scan for documentation
+
 Scan the current directory recursively for:
-- `*.md` files (specs, PRDs, policies, flows, research)
-- Skip: `.pm-brain/`, `node_modules/`, `.git/`, `archive/`
+- `*.md` files
+- `*.docx` files (Word documents)
+
+**Skip these directories** — they contain code, not product docs:
+`.pm-brain/`, `node_modules/`, `.git/`, `archive/`, `src/`, `app/`, `lib/`, `components/`, `tests/`, `test/`, `dist/`, `build/`, `.next/`, `__pycache__/`, `vendor/`, `coverage/`
+
+**Prefer these directories** — likely to contain product docs:
+root level files, `docs/`, `_docs/`, `specs/`, `research/`, `decisions/`, `prd/`, `notes/`
 
 Build a list with: filename, path, estimated type.
+
+**If 0 files found:**
+```
+לא מצאתי מסמכים לייבוא בתיקייה הזו.
+
+אם יש לך מסמכים בפורמטים אחרים:
+• Google Docs — יצא/י כ-Word (.docx) או Markdown ואז הרץ שוב
+• Notion — יצא/י עמוד כ-Markdown ואז הרץ שוב
+• PDF — לא נתמך עדיין
+
+אם המוצר חדש לגמרי — התחל/י לעבוד ישירות.
+/decision-log כשתחליט/י משהו.
+```
+Stop.
 
 Show user:
 ```
@@ -32,11 +53,27 @@ Found 23 documents to import:
 ├── PRD/specs (13 files)
 ├── Flows (4 files)  
 ├── Policies (1 file)
-├── Tech docs (2 files)
+├── Word docs (2 files)
 └── Other (3 files)
 
 This will take ~2 minutes. Proceed? (y/n)
 ```
+
+### Step 2b: Convert .docx files
+
+For each `.docx` file found, convert to plain text before processing:
+
+Run: `textutil -convert txt "[file].docx" -stdout`
+
+If `textutil` is not available (non-Mac):
+- Try: `pandoc "[file].docx" -t plain`
+- If neither available: skip the file and tell user:
+  ```
+  דילגתי על [filename].docx — לא נמצא כלי המרה.
+  התקן/י pandoc (brew install pandoc) ואז הרץ שוב, או יצא/י כ-Markdown ידנית.
+  ```
+
+Treat the converted text as the file content for all steps below.
 
 ### Step 3: Process each file by type
 
